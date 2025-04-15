@@ -5,5 +5,5 @@ export default defineConfig({
   plugins: [
     react(),
   ],
-  base: '/reviewHT'
+  //base: '/reviewHT'
 })

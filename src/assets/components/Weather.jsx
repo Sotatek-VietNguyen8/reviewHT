@@ -1,3 +1,144 @@
+// import axios from 'axios'
+// import { Cloud, CloudRain, CloudSnow, Droplet, Eye, Gauge, Sun, Thermometer, Wind } from 'lucide-react'
+// import React, { useEffect, useState } from 'react'
+
+// const Weather = () => {
+//     const [weatherData , setWeatherData] = useState(null)
+//     const [loading , setLoading] = useState(true)
+//     const api_key = import.meta.env.VITE_WEATHERSTACK_API_KEY
+//     const locationQuery = 'HA TINH'
+
+//     useEffect(() => {
+//         if(!api_key){
+//             setLoading(false)
+//             console.log("ERROR: bien moi truong 'VITE_WEATHERSTACK_API_KEY' ")
+//             return
+//         }
+//         const fetchWeather = async () => {
+//             setLoading(true)
+//             try{
+//                 const response = await axios.get(`http://api.weatherstack.com/current`, {
+//                     params: {
+//                         access_key: api_key,
+//                         query: locationQuery,
+//                         units: 'm'
+    
+//                     }
+//                 })
+//                 console.log("API response: ", response.data)
+    
+//                 if(response.data.success === false){
+//                     console.error(`Loi tu WeatherStack: ${response.data.error.info} (Code: ${response.data.error.code})`)
+//                     console.error('Loi API WeatheStack', response.data.error)
+//                 }else if (response.data.current && response.data.location){
+//                     setWeatherData(response.data)
+//                 }
+//                 else{
+//                     console.error('Du lieu khong hop le', response.data)
+//                 }
+//             }catch(error) {
+//                 console.error('Loi khi goi API thoi tiet')
+//             }finally{
+//                 setLoading(false)
+//             }
+//         }
+        
+//         fetchWeather()
+//     }, [api_key, locationQuery])
+
+//     const getWeatherIcon = (code, isDay) => {
+//         if(code === 113) return <Sun className='w-12 h-12 text-yellow-500'/>
+//         if(code === 116) return <Cloud className='w-12 h-12 text-gray-400'/>
+//         if(code === 119 || code === 122) return <Cloud className='w-12 h-12 text-gray-500'/>
+//         if([176, 263, 266, 293, 296, 299, 302, 305, 308, 353, 356, 359].includes(code)) return <CloudRain className='w-12 h-12 text-blue-500'/>
+//         if([179, 182, 185, 227, 230, 323, 326, 329, 332, 335, 338, 368, 371].includes(code)) return <CloudSnow className='w-12 h-12 text-blue-200'/>
+//         return <Thermometer className='w-12 h-12 text-gray-600'/>
+//     }
+//   return (
+//     <section id='weather' className='py-16 bg-gradient-to-br from-blue-100 via-blue-100 to-white'>
+//         <div className='container mx-auto px-4'>
+//             {loading && (
+//                 <div className='text-center text-gray-600'>Weather loading...</div>
+//             )}
+
+//             {weatherData && (
+//                 <div className='max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-8'>
+//                     <div className='flex flex-col items-center text-center md:text-left md:items-start'>
+//                         <h3 className='text-2xl font-semibold text-gray-800'>
+//                             {weatherData.location.name}, {weatherData.location.country}
+//                         </h3>
+//                         <p>
+//                             Update: {new Date(weatherData.location.localtime).toLocaleDateString('vi-VN', {hour:'2-digit', minute: '2-digit'})}
+//                             ({weatherData.current.observation_time} UTC )
+//                         </p>
+//                         <div className='flex items-center space-x-4 mb-3'>
+//                             {weatherData.current.weather_icons && weatherData.current.weather_icons.length > 0 ? (
+//                                 <img
+//                                     src={weatherData.current.weather_icons[0]}
+//                                     alt={weatherData.current.weather_descriptions[0]}
+//                                     className='w-16 h-16'
+//                                 />
+//                             ):(
+//                                 getWeatherIcon(weatherData.current.weather_code, weatherData.current.is_day==='yes')
+//                             )}
+//                             <span className='text-6xl font-bold text-gray-900'>{weatherData.current.temperature}°C</span>
+//                         </div>
+//                         <p className='text-xl font-medium text-gray-700 capitalize mb-1'>
+//                             {weatherData.current.weather_descriptions[0]}
+//                         </p>
+//                         <p>
+//                             Cảm giác như: {weatherData.current.feelslike}°C
+//                         </p>
+//                     </div>
+
+//                     <div className='w-full md:w-auto border-t md:border-l border-gray-200 pt-4 md:pt-0 md:pl-8 flex-grow'>
+//                         <h4 className='text-lg font-semibold mb-4 text-gray-700 text-center md: text-left'>Thông tin chi tiết </h4>
+//                         <div className='grid grid-cols-2 gap-x-4 gap-y-3 text-sm'>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Wind className= 'w-5 h-5 mr-2 text-blue-500'/>
+//                                 <span>{weatherData.current.wind_speed} km/h({weatherData.current.wind_dir})</span>
+//                             </div>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Droplet  className='w-5 h-5 mr-2 text-cyan-500'/>
+//                                 <span>{weatherData.current.humidity}%</span>
+//                             </div>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Eye className='w-5 h-5 mr-2 text-gray-500'/>
+//                                 <span>{weatherData.current.visibility} km</span>
+//                             </div>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Gauge className='w-5 h-5 mr-2 text-purple-500 '/>
+//                                 <span>{weatherData.current.pressure} mb</span>
+//                             </div>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Sun className='w-5 h-5 mr-2 text-orange-600'/>
+//                                 <span>{weatherData.current.uv_index}</span>
+//                             </div>
+//                             <div className='flex items-center text-gray-600'>
+//                                 <Cloud className='w-5 h-5 mr-2 text-slate-400'/>
+//                                 <span>{weatherData.current.cloudcover}%</span>
+//                             </div>
+//                         </div>
+//                         {weatherData.current.air_quality && (
+//                             <div className='mt-4 py-3 border-t border-gray-200'>
+//                                 <h5 className='text-md font-medium mb-2 text-gray-700'>Chất lượng không khí (PM2.5)</h5>
+//                                 <p className='text-gray-600 text-sm'>
+//                                     {parseFloat(weatherData.current.air_quality.pm2_5).toFixed(2)} µg/m³
+//                                 </p>
+//                             </div>
+//                         )}
+//                     </div>
+//                 </div>
+//             )}
+//         </div>
+      
+//     </section>
+//   )
+// }
+
+// export default Weather
+
+
 import axios from 'axios'
 import { Cloud, CloudRain, CloudSnow, Droplet, Eye, Gauge, Sun, Thermometer, Wind, CalendarDays, AlertTriangle } from 'lucide-react'
 import React, { useEffect, useState, useCallback } from 'react'

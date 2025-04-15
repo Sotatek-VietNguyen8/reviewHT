@@ -1,5 +1,7 @@
 import { Building2, MapPin, User2 } from 'lucide-react';
 import React, { useState } from 'react'
+import CountUp from 'react-countup';
+import { useInView } from 'react-intersection-observer';
 
 const Content = () => {
 
@@ -19,9 +21,14 @@ const Content = () => {
         [id]: !prev[id]
       }))
     }
+
+    const {ref: infoSectionRef, inView: infoSectionIsVisible} = useInView({
+      triggerOnce: true,
+      threshold: 0.1
+    })
   return (
     <>
-    <section className='py-16 bg-white'>
+    <section id='home' className='py-16 bg-green-100'>
       <div className='container mx-auto px-4'>
         <div className='text-center mb-12'>
             <h2 className='text-3xl font-bold mb-4'>Giới thiệu về Tỉnh Hà Tĩnh </h2>
@@ -46,7 +53,7 @@ const Content = () => {
                   Hà Tĩnh nổi tiếng với lịch sử văn hóa phong phú, là quê hương của nhiều danh nhân như đại thi hào Nguyễn Du - tác giả của kiệt tác Truyện Kiều, và nhiều di tích lịch sử quan trọng như Khu di tích Ngã ba Đồng Lộc, Khu lưu niệm Nguyễn Du.
                 </p>
             </div>
-            <div className='grid grid-cols-2 gap-6 p-6'>
+            <div ref={infoSectionRef} className='grid grid-cols-2 gap-6 p-6'>
             {locationImage.map((location) => (
               <div
                 key={location.id}
@@ -63,6 +70,7 @@ const Content = () => {
                       src={location.src}
                       alt={location.alt}
                       className='w-full h-full object-cover rounded-lg' 
+                      loading='lazy'
                     />
                   </div>
 
@@ -102,17 +110,41 @@ const Content = () => {
           </div>
 
           <div className='bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 '>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-green-600 mx-auto mb-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m4.5 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-            </svg>            
-            <h3 className='text-xl font-semibold mb-2 text-gray-600'>Diện tích </h3>
-            <p className='text-gray-700 text-sm'>5.994,45 km²</p>
-          </div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12 text-green-600 mx-auto mb-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m4.5 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+              </svg>
+              <h3 className='text-xl font-semibold mb-2 text-gray-600'>Diện tích </h3>
+              <div className='text-gray-700 text-lg font-bold h-7'> 
+                {infoSectionIsVisible ? (
+                    <CountUp
+                      end={5994.45}
+                      duration={2.5}
+                      decimals={2}
+                      decimal="." 
+                      suffix=" km²"
+                    />
+                ) : (
+                  <span>0 km²</span> 
+                )}
+              </div>
+            </div>
           
           <div className='bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 '>
             <User2 className='w-12 h-12 text-green-600 mx-auto mb-4'/>
             <h3 className='text-xl font-semibold mb-2 text-gray-600'>Dân số </h3>
-            <p className='text-gray-700 text-sm'>	1.317.200 người</p>
+            <div className='text-gray-700 text-lg font-bold h-7'> 
+                {infoSectionIsVisible ? (
+                    <CountUp
+                      end={1317200}
+                      duration={2.5}
+                      decimals={2}
+                      decimal="." 
+                      suffix=" người"
+                    />
+                ) : (
+                  <span>0 người </span> 
+                )}
+              </div>
           </div>
 
           <div className='bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300 '>

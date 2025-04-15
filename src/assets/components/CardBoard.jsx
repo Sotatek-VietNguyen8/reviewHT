@@ -10,7 +10,7 @@ const CardBoard = () => {
         className='absolute inset-0 w-full h-full object-cover brightness-75 z-0'      
       />
       <div className='relative z-10 container px-4 text-white'>
-        <h1 className='text-4xl md:text-6xl font-bold mb-4 drop-shadow-md'>
+        <h1 className='text-4xl md:text-6xl font-serif mb-4 drop-shadow-md'>
           HÀ TĨNH
         </h1>
         <p className='text-xl md:text-2xl mb-8 drop-shadow-md'>

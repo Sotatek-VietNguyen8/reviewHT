@@ -1,6 +1,6 @@
 import { ChevronRight, MapPin } from 'lucide-react'
 import React from 'react'
-import { EffectCoverflow, Pagination } from 'swiper/modules'
+import { EffectCoverflow, Pagination, Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
@@ -53,7 +53,7 @@ const Travel = () => {
 
     ]
   return (
-    <section className='py-16 bg-white overflow-hidden'>
+    <section id='travel' className='py-16 bg-red-100 overflow-hidden'>
       <div className='container mx-auto px-4'>
         <div className='text-center mb-12'>
             <h2 className='text-3xl font-bold mb-4'>Điểm du lịch nổi bật </h2>
@@ -74,7 +74,11 @@ const Travel = () => {
                 slideShadows: true
             }}
             pagination={true}
-            modules={[EffectCoverflow, Pagination]}
+            autoplay={{
+              delay: 1000, 
+              disableOnInteraction: false, 
+            }}
+            modules={[EffectCoverflow, Pagination, Autoplay]}
             className='!pd-12'
         >
             {travelAddress.map((travel, index)=>(
