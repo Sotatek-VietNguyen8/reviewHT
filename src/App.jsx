@@ -5,6 +5,7 @@ import LoginPage from './Admin/Login'
 import PostNews from './Admin/PostNews'
 import { useAuthStore } from './assets/store/useAuthStore'
 import { useEffect } from 'react'
+import ResetPsw from './Admin/ResetPsw'
 
 function App() {
   const {authUser, checkAuth} = useAuthStore()
@@ -22,6 +23,7 @@ function App() {
         />
 
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/resetPsw" element={<ResetPsw />} />
         <Route path="/postNews" element={<PostNews />} />
       </Routes>
     </div>

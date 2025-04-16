@@ -91,6 +91,7 @@ const PostNews = () => {
               <option value='' disabled>Chọn lĩnh vực</option>
               <option value='Kinh tế'>Kinh tế</option>
               <option value='Chính trị'>Chính trị</option>
+              <option value='An ninh - Quốc phòng'>An ninh - Quốc phòng </option>
               <option value='Xã hội'>Xã hội</option>
               <option value='Văn hóa'>Văn hóa</option>
               <option value='Đời sống'>Đời sống</option>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthStore } from '../store/useAuthStore'
 import { useNavigate } from 'react-router-dom'
-import { User } from 'lucide-react'
+import { ChevronDown, MenuIcon, User, XIcon } from 'lucide-react'
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+
   const { authUser, logout } = useAuthStore()
   const navigate = useNavigate()
 
@@ -13,6 +15,7 @@ const Navbar = () => {
     { name: 'Du lịch', href: '/#travel' },
     { name: 'Đồ ăn ', href: '/#food' },
     { name: 'Cafe ', href: '/#coffee' },
+    { name: 'Tin tức', href: '/#news' },
   ]
 
   const handleScroll = () => {
@@ -61,11 +64,11 @@ const Navbar = () => {
             >
               Trang chủ
             </a>
-            <div className="absolute top-full left-0 mt-1 bg-white text-black rounded shadow-md py-2 px-4 hidden group-hover:block z-50 min-w-[220px]">
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 bg-white text-black rounded shadow-md py-2 px-4 hidden group-hover:block z-50 ">
               {authUser ? (
                 <div>
                   <div className='px-3 py-2 text-sm text-gray-600 flex items-center gap-2 border-b border-gray-200'>
-                    <User className='size-4 text-gray-500'/>
+                    <User className='size-4 text-gray-500' />
                     <span className='font-medium truncate'>{authUser.userName}</span>
                     <span className='font-medim text-gray-400'>({authUser.email})</span>
                   </div>
@@ -73,7 +76,7 @@ const Navbar = () => {
                     onClick={handlePostNews}
                     className="block w-full text-left hover:text-yellow-300"
                   >
-                    Đăng tin tức 
+                    Đăng tin tức
                   </button>
                   <button
                     onClick={handleLogout}
@@ -82,7 +85,6 @@ const Navbar = () => {
                     Đăng xuất
                   </button>
                 </div>
-                
               ) : (
                 <button
                   onClick={handleLogin}
@@ -94,26 +96,58 @@ const Navbar = () => {
             </div>
           </li>
 
-          {navItems.map((item, index) => (
-            <li key={item.name + index}>
-              <a
-                href={item.href}
-                className={`
-                  font-medium text-base lg:text-lg relative group pb-1 px-1 rounded-md
-                  transition-colors duration-200
-                  focus:outline-none focus:ring-2 focus:ring-opacity-70
-                  ${scrolled
-                    ? 'hover:text-black focus:ring-gray-500 focus:ring-offset-gray-100'
-                    : 'hover:text-gray-100 focus:ring-white focus:ring-offset-green-600'}
-                `}
-              >
-                {item.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
-              </a>
-            </li>
-          ))}
+          <li className="relative group cursor-pointer">
+            <div className="flex items-center gap-1 font-medium text-base lg:text-lg group-hover:text-yellow-300">
+              Danh mục <ChevronDown className="w-4 h-4" />
+            </div>
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white text-black rounded shadow-md py-2 px-4 hidden group-hover:block z-50 min-w-[180px]">
+              {navItems.map((item, index) => (
+                <a
+                  key={index}
+                  href={item.href}
+                  className="block px-3 py-1 hover:text-green-600"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+          </li>
+
         </ul>
+
+        <div className="md:hidden">
+          <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
+            {isOpen ? (
+              <XIcon className="w-6 h-6 text-black" />
+            ) : (
+              <MenuIcon className={`w-6 h-6 ${scrolled ? 'text-black' : 'text-white'}`} />
+            )}
+          </button>
+        </div>
       </div>
+
+      {isOpen && (
+        <ul className="md:hidden bg-white shadow-lg px-6 py-4 space-y-4 text-gray-800">
+          <li>
+            <details className="dropdown">
+              <summary className="cursor-pointer text-lg font-medium">Danh mục</summary>
+              <ul className="pl-4 mt-2 space-y-2">
+                {navItems.map((item, index) => (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      className="block hover:text-green-600"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        </ul>
+      )}
     </nav>
   )
 }

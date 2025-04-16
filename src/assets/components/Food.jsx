@@ -154,7 +154,7 @@ const Food = () => {
             <div key= {index} className='bg-white p-6 rounded-lg shadow-md text-center hover:shadow-lg transition-shadow duration-300'>
             <img
               src={item.src}
-              className='w-full h-48 object-cover rounded mb-4'
+              className='w-full h-48 object-cover rounded mb-4 hover:animate-wiggle'
             />
             <h3 className='text-xl font-semibold mb-2 text-gray-600'>{item.name}</h3>
             <p className='text-gray-600 text-sm'>{item.description}</p>

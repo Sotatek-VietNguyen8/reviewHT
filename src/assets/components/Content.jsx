@@ -69,7 +69,7 @@ const Content = () => {
                     <img
                       src={location.src}
                       alt={location.alt}
-                      className='w-full h-full object-cover rounded-lg' 
+                      className='w-full h-full object-cover rounded-lg hover:scale-105 hover:rotate-1 hover:shadow-lg' 
                       loading='lazy'
                     />
                   </div>
